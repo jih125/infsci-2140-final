@@ -25,12 +25,7 @@
     </el-header>
     <el-container>
       <el-aside width="75%">
-        <iframe
-          src="https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true"
-          frameborder="0"
-          height="800px"
-          width="100%"
-        ></iframe>
+        <iframe src="demo.pdf" frameborder="0" height="800px" width="100%"></iframe>
       </el-aside>
       <el-container>
         <el-main>
@@ -67,11 +62,11 @@ export default {
           activeEl.selectionStart,
           activeEl.selectionEnd
         );
-      }else if(document.getSelection()){
+      } else if (document.getSelection()) {
         text = document.getSelection().toString();
       }
       document.getElementById("sel").value = text;
-    }
+    };
   },
   data() {
     return {
@@ -80,8 +75,7 @@ export default {
       title: "A study of methods for negative relevance feedback",
       paper: {
         title: "A study of methods for negative relevance feedback",
-        src:
-          "https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true"
+        src: "demo.pdf"
       },
       form: {}
     };
