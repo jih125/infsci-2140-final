@@ -8,7 +8,7 @@
           </el-link>
         </el-col>
         <el-col :span="20">
-          <p class="title">{{ paper.title }}</p>
+          <p class="title">{{ title }}</p>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -31,7 +31,7 @@
     </el-header>
     <el-aside width="1000px">
       <iframe
-        src="https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true"
+        :src="src"
         frameborder="0"
         height="800px"
         width="100%"
@@ -49,11 +49,10 @@ export default {
       drawer: false,
       direction: 'ltr',
       title: 'A study of methods for negative relevance feedback',
-      paper: {
-        title: 'A study of methods for negative relevance feedback',
-        src:
-          'https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true'
-      }
+      // paper: {
+      //   title: 'A study of methods for negative relevance feedback',
+      src: 'https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true'
+      // }
     }
   },
   methods: {
