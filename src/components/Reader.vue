@@ -8,7 +8,7 @@
           </el-link>
         </el-col>
         <el-col :span="20">
-          <p class="title">{{ paper.title }}</p>
+          <p class="title">{{ title }}</p>
         </el-col>
         <el-col :span="3">
           <el-button
