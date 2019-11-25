@@ -55,12 +55,7 @@
     <el-container>
       <el-container>
         <el-main>
-          <iframe
-            src="demo.pdf"
-            frameborder="0"
-            height="800px"
-            width="100%"
-          ></iframe>
+          <object width="100%" height="720px" style="overflow-y:auto;" data="demo.pdf"></object>
         </el-main>
         <el-footer>INFSCI 2140 PROJECT</el-footer>
       </el-container>
@@ -121,9 +116,9 @@ export default {
       form: {}
     }
   },
-  methods: {
-    //
-  }
+  computed: {
+    
+  },
 }
 </script>
 
