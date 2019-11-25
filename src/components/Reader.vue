@@ -55,7 +55,7 @@
     <el-container>
       <el-container>
         <el-main>
-          <object width="100%" height="720px" style="overflow-y:auto;" data="demo.pdf"></object>
+          <object width="100%" height="800px" style="overflow-y:auto;" data="demo.pdf"></object>
         </el-main>
         <el-footer>INFSCI 2140 PROJECT</el-footer>
       </el-container>
