@@ -4,9 +4,7 @@
       <el-row>
         <el-col :span="1">
           <el-link :underline="false" onclick="history.back()">
-            <i class="material-icons md-48 back" style="margin-top:18px;"
-              >arrow_back</i
-            >
+            <i class="material-icons md-48 back" style="margin-top:18px;">arrow_back</i>
           </el-link>
         </el-col>
         <el-col :span="20">
@@ -18,13 +16,8 @@
             type="primary"
             size="mini"
             style="margin-top: 18px;"
-            >Outline</el-button
-          >
-          <el-drawer
-            title="Outline"
-            :visible.sync="drawer"
-            :direction="direction"
-          >
+          >Outline</el-button>
+          <el-drawer title="Outline" :visible.sync="drawer" :direction="direction">
             <el-menu default-active="2" class="el-menu-vertical-demo">
               <el-submenu index="1">
                 <template slot="title">
@@ -52,32 +45,32 @@
     <el-container>
       <el-container>
         <el-main>
-          <iframe
-            src="demo.pdf"
-            width="100%"
-            height="800px"
-            style="border: none;"
-          />
+          <iframe src="demo.pdf" width="100%" height="800px" style="border: none;" />
         </el-main>
         <el-footer>INFSCI 2140 PROJECT</el-footer>
       </el-container>
-      <el-aside width="20%">
+      <el-aside width="25%" style="overflow:auto;">
         <h5>Search methods</h5>
         <el-form ref="form" :model="form" name="testform">
-          <el-form-item>
-            <el-input
-              type="textarea"
-              v-model="textarea"
-              :rows="3"
-              id="sel"
-            ></el-input>
+          <el-form-item prop="searchtext">
+            <el-input type="textarea" v-model="form.searchtext" :rows="3" id="sel"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="submit" class="primary" size="mini">Go</el-button>
-            <el-button size="mini">Cancel</el-button>
+            <el-button type="primary" @click="submit('form')" :loading="loading">Submit</el-button>
+            <el-button @click="reset('form')">Cancel</el-button>
           </el-form-item>
         </el-form>
-        <div id="result"></div>
+        <div id="result">
+          <el-card class="google-scholar">
+            <div slot="header">
+              <h1>Search Result:</h1>
+              <span id="result-title"></span>
+            </div>
+            <div>
+              <span id="result-content"></span>
+            </div>
+          </el-card>
+        </div>
       </el-aside>
     </el-container>
   </el-container>
@@ -85,22 +78,55 @@
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
 export default {
-  created() {},
   data() {
     return {
+      loading: false,
       drawer: false,
-      direction: 'ltr',
+      direction: "ltr",
       paper: {
-        title: 'A study of methods for negative relevance feedback',
-        src: 'demo.pdf'
+        title: "A study of methods for negative relevance feedback",
+        src: "demo.pdf"
       },
-      form: {},
-      textarea: ''
-    }
+      form: {
+        searchtext: ""
+      },
+      result: {
+        text: ""
+      }
+    };
   },
   computed: {},
-  methods: {}
-}
+  methods: {
+    submit(formName) {
+      this.loading = true;
+      if (this.form.searchtext == "") {
+        setTimeout(
+          () => ((this.loading = false), alert("Please submit your search!")),
+          1000
+        );
+      } else {
+        setTimeout(
+          () => (
+            (this.loading = false),
+            (document.getElementById(
+              "result-title"
+            ).innerText = "'"+this.form.searchtext + "'"),
+            (document.getElementById(
+              "result-content"
+            ).innerText = this.result.text)
+          ),
+          1000
+        );
+      }
+    },
+    reset(formName) {
+      this.$refs[formName].resetFields();
+    },
+    createCard() {
+      
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -114,8 +140,11 @@ export default {
 .title {
   font-size: large;
 }
-#the-canvas {
-  width: 100%;
-  height: auto;
+#result-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
