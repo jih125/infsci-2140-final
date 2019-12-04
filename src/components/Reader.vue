@@ -60,7 +60,7 @@
             <el-button @click="reset('form')">Cancel</el-button>
           </el-form-item>
         </el-form>
-        <div id="result">
+        <div v-show="show" id="result">
           <el-card class="google-scholar">
             <div slot="header">
               <h1>Search Result:</h1>
@@ -80,6 +80,8 @@
 export default {
   data() {
     return {
+      show: true,
+      results: [],
       loading: false,
       drawer: false,
       direction: "ltr",
