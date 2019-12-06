@@ -1,11 +1,10 @@
 <template>
   <el-container>
-    <el-header></el-header>
-    <el-main>
+    <el-main style="margin-top:100px;">
       <el-row>
         <el-col :span="16" :offset="4">
           <div class="grid-content" align="left">
-            <h1 class="title">Welcome!</h1>
+            <h1 id="title">Welcome!</h1>
             <h2 class="subtitle">enjoy your reading!</h2>
             <el-table :data="tableData" style="width: 100%">
               <el-table-column type="expand">
@@ -48,7 +47,7 @@
         </el-col>
       </el-row>
     </el-main>
-    <el-footer>INFSCI 2140 PROJECT</el-footer>
+    <el-footer style="margin-top:200px">INFSCI 2140 PROJECT</el-footer>
   </el-container>
 </template>
 
@@ -78,7 +77,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.title {
+#title {
   font-weight: bolder;
   font-size: 64px;
   margin-bottom: 0;

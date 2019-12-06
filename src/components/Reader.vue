@@ -62,7 +62,7 @@
         <el-footer>INFSCI 2140 PROJECT</el-footer>
       </el-container>
       <el-aside width="25%" style="height:800px;" id="sidearea">
-        <h5>Search methods</h5>
+        <h5 style="margin-top:20px">Search methods</h5>
         <el-form ref="form" :model="form" name="testform">
           <el-form-item prop="searchtext">
             <el-input
@@ -109,7 +109,21 @@ export default {
       },
       result: {
         text: ''
-      }
+      },
+      category: [
+        {
+          name:'123',
+          url:'http://www.google.com'
+        },
+        {
+          name:'123',
+          url:'http://www.google.com'
+        },
+        {
+          name:'123',
+          url:'http://www.google.com'
+        },
+        ]
     }
   },
   computed: {},
@@ -129,37 +143,41 @@ export default {
       this.$refs[formName].resetFields()
     },
     createCard() { 
-      var title = document.createElement('h1')
-      var titleText = document.createTextNode('Search result from Wikipedia:')
-      title.appendChild(titleText)
-      document.getElementById('sidearea').appendChild(title)
+      var card = document.createElement('div')
+      card.setAttribute('class','card')
 
-      var content = document.createElement('p')
-      var contentText = document.createTextNode(this.form.searchtext)
-      content.appendChild(contentText)
-      document.getElementById('sidearea').appendChild(contentText)
+      var cardBody = document.createElement('div')
+      cardBody.setAttribute('class','card-body')
 
-      var referenceTitle = document.createElement('h1')
-      referenceTitle.appendChild(document.createTextNode('Reference:'))
-      document.getElementById('sidearea').appendChild(referenceTitle)
+      var resultTitle = document.createElement('h5')
+      resultTitle.setAttribute('class','card-title')
+      var resultTitleText = document.createTextNode('Search for Wikipedia:'+this.form.searchtext)
 
-      var divider = document.createElement('hr')
-      var referenceArray = ['Bullying', 'Cyber', 'Wiki'];
-      for (var i = 0; i < referenceArray.length; i++) {
-        var reference = document.createElement('a');
-        var referencetext = document.createTextNode(referenceArray[i]);
-        reference.appendChild(referencetext);
-        reference.href = 'http://www.google.com';
-        reference.title = referenceArray[i];
-        reference.style.marginRight = '10px'
-        document.getElementById('sidearea').appendChild(reference);
-        document.getElementById('sidearea').appendChild(divider);
+      var resultContent = document.createElement('p')
+      resultContent.setAttribute('class','card-text')
+      var contentText = 'Here is the <span class="searchmatch">result</span>'
+      resultContent.innerHTML = contentText
+
+      resultTitle.appendChild(resultTitleText)
+      cardBody.appendChild(resultTitle)
+      cardBody.appendChild(resultContent)
+      for(var i = 0; i<this.category.length;i++){
+        var resource = document.createElement('a')
+        resource.setAttribute('class','card-link')
+        resource.setAttribute('href',this.category[i].url)
+        resource.setAttribute('target','_blank')
+        var resourceTitle = document.createTextNode(this.category[i].name)
+        resource.appendChild(resourceTitle)
+        cardBody.appendChild(resource)
       }
+      card.appendChild(cardBody)
+
+      document.getElementById('sidearea').appendChild(card)
     }
   }
 }
 </script>
-<style scoped>
+<style>
 .el-header {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   /* margin: 0; */
@@ -169,6 +187,8 @@ export default {
 }
 .title {
   font-size: large;
+  font-weight: bold;
+  margin-top: 16px;
 }
 #result-title {
   overflow: hidden;
@@ -176,5 +196,8 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.searchmatch {
+  font-weight: bold;
 }
 </style>
