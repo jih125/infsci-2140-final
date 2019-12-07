@@ -77,6 +77,7 @@
               >Submit</el-button
             >
             <el-button @click="reset('form')">Cancel</el-button>
+            <el-button type="text" @click="removeCards()">Clear</el-button>
           </el-form-item>
         </el-form>
       </el-aside>
@@ -89,10 +90,49 @@ import Vue from 'vue'
 import card from './card.vue'
 Vue.config.productionTip = false
 
+function createCard(title, content) {
+  var card = document.createElement('div')
+  card.setAttribute('id', 'card')
+  card.setAttribute('class', 'card')
+  card.setAttribute('style', 'margin-bottom:10px')
+  var cardBody = document.createElement('div')
+  cardBody.setAttribute('class', 'card-body')
+
+  var resultTitle = document.createElement('h5')
+  resultTitle.setAttribute('class', 'card-title')
+  resultTitle.innerHTML = title
+
+  var resultContent = document.createElement('p')
+  resultContent.setAttribute('class', 'card-text')
+  resultContent.setAttribute(
+    'style',
+    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;'
+  )
+  var contentText = content
+  resultContent.innerHTML = contentText
+
+  cardBody.appendChild(resultTitle)
+  cardBody.appendChild(resultContent)
+  // for (var i = 0; i < this.category.length; i++) {
+  //   var resource = document.createElement('a')
+  //   resource.setAttribute('class', 'card-link')
+  //   resource.setAttribute('href', this.category[i].url)
+  //   resource.setAttribute('target', '_blank')
+  //   var resourceTitle = document.createTextNode(this.category[i].name)
+  //   resource.appendChild(resourceTitle)
+  //   cardBody.appendChild(resource)
+  // }
+  card.appendChild(cardBody)
+
+  document.getElementById('sidearea').appendChild(card)
+}
+
 export default {
   components: {
     card
   },
+  created() {},
+  mounted() {},
   data() {
     return {
       show: true,
@@ -112,18 +152,18 @@ export default {
       },
       category: [
         {
-          name:'123',
-          url:'http://www.google.com'
+          name: '123',
+          url: 'http://www.google.com'
         },
         {
-          name:'123',
-          url:'http://www.google.com'
+          name: '123',
+          url: 'http://www.google.com'
         },
         {
-          name:'123',
-          url:'http://www.google.com'
-        },
-        ]
+          name: '123',
+          url: 'http://www.google.com'
+        }
+      ]
     }
   },
   computed: {},
@@ -131,48 +171,70 @@ export default {
     submit(formName) {
       this.loading = true
       if (this.form.searchtext == '') {
-        setTimeout(
-          () => ((this.loading = false), alert('Please submit your search!')),
-          1000
-        )
+        setTimeout(() => ((this.loading = false), this.notify('Warning','Please input before search','warning')), 1000)
       } else {
-        setTimeout(() => ((this.loading = false), this.createCard()), 1000)
+        this.getWikiResult(this.form.searchtext).then(function(result) {
+          setTimeout(() => ((this.loading = false), 1000))
+          var resultArray = result
+          resultArray.forEach(element => {
+            createCard(element.title, element.snippet)
+          })
+        })
+        this.loading = false
       }
     },
     reset(formName) {
       this.$refs[formName].resetFields()
     },
-    createCard() { 
-      var card = document.createElement('div')
-      card.setAttribute('class','card')
+    notify(title, message,type) {
+      const h = this.$createElement
 
-      var cardBody = document.createElement('div')
-      cardBody.setAttribute('class','card-body')
-
-      var resultTitle = document.createElement('h5')
-      resultTitle.setAttribute('class','card-title')
-      var resultTitleText = document.createTextNode('Search for Wikipedia:'+this.form.searchtext)
-
-      var resultContent = document.createElement('p')
-      resultContent.setAttribute('class','card-text')
-      var contentText = 'Here is the <span class="searchmatch">result</span>'
-      resultContent.innerHTML = contentText
-
-      resultTitle.appendChild(resultTitleText)
-      cardBody.appendChild(resultTitle)
-      cardBody.appendChild(resultContent)
-      for(var i = 0; i<this.category.length;i++){
-        var resource = document.createElement('a')
-        resource.setAttribute('class','card-link')
-        resource.setAttribute('href',this.category[i].url)
-        resource.setAttribute('target','_blank')
-        var resourceTitle = document.createTextNode(this.category[i].name)
-        resource.appendChild(resourceTitle)
-        cardBody.appendChild(resource)
+      this.$notify({
+        title: title,
+        message: h('i', { style: 'color: teal' }, message),
+        type: type
+      })
+    },
+    removeCards() {
+      var childNodes = document.getElementById('sidearea').childNodes
+      for (var i = childNodes.length - 1; i >= 0; i--) {
+        var childNode = childNodes[i]
+        if (childNode.id == 'card') {
+          childNode.parentNode.removeChild(childNode)
+        }
       }
-      card.appendChild(cardBody)
+      this.notify('Success','Card removed','success')
+    },
+    async getWikiResult(query) {
+      var url = 'https://en.wikipedia.org/w/api.php'
+      var params = {
+        action: 'query',
+        format: 'json',
+        list: 'search',
+        utf8: 1,
+        srsearch: query,
+        srprop: 'snippet|titlesnippet',
+        srlimit: 5,
+        srenablerewrites: 1,
+        srsort: 'relevance'
+      }
 
-      document.getElementById('sidearea').appendChild(card)
+      url = url + '?origin=*'
+      Object.keys(params).forEach(function(key) {
+        url += '&' + key + '=' + params[key]
+      })
+      var temp = []
+      await fetch(url)
+        .then(function(response) {
+          return response.json()
+        })
+        .then(function(response) {
+          temp = response.query.search
+        })
+        .catch(function(error) {
+          console.log(error)
+        })
+      return temp
     }
   }
 }
