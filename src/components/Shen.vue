@@ -53,7 +53,7 @@
       <el-container>
         <el-main>
           <iframe
-            src="demo.pdf"
+            src="../assets/shen.pdf"
             width="100%"
             height="800px"
             style="border: none;"
@@ -141,8 +141,8 @@ export default {
       drawer: false,
       direction: 'ltr',
       paper: {
-        title: 'A study of methods for negative relevance feedback',
-        src: 'demo.pdf'
+        title: 'Probabilistic Latent Semantic Indexing',
+        src: 'p43-shen.pdf'
       },
       form: {
         searchtext: ''

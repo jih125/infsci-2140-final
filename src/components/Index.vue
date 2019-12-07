@@ -31,15 +31,14 @@
               </el-table-column>
               <el-table-column label="Title" prop="title"> </el-table-column>
               <el-table-column align="right">
-                <template v-slot:default="slotProps">
-                  <el-link href="/reader" :underline="false">
+                <template slot-scope="props">
+                  <el-link :href='props.row.src' :underline="false">
                   <el-button
                     size="mini"
                     type="primary"
                     >Read now</el-button
                   >
                   </el-link>
-                  
                 </template>
               </el-table-column>
             </el-table>
@@ -63,12 +62,29 @@ export default {
     return {
       tableData: [
         {
-          title: 'A study of methods for negative relevance feedback',
+          title: 'Cyberbullying, self-esteem, empathy and loneliness',
           keyword: 'Negative feedback',
           methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
-          result: 'here'  
-        }
+          result: 'here',
+          src:'/reader/demo'
+        },
+        {
+          title: 'Probabilistic Latent Semantic Indexing',
+          keyword: 'Negative feedback',
+          methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
+          experiment: 'here',
+          result: 'here',
+          src:'/reader/shen'
+        },
+        {
+          title: 'Context-Sensitive Information Retrieval Using Implicit Feedback',
+          keyword: 'Negative feedback',
+          methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
+          experiment: 'here',
+          result: 'here',
+          src:'reader/hofmann'  
+        },
       ]
     }
   }

@@ -1,7 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./components/Index.vue";
-import Reader from "./components/Reader.vue";
+import Demo from "./components/Demo.vue";
+import Shen from "./components/Shen.vue";
+import hofmann from './components/hofman.vue';
+
 
 Vue.use(Router)
 
@@ -15,9 +18,19 @@ export default new Router({
             component: Index
         },
         {
-            path: '/reader',
-            name: 'Reader',
-            component: Reader
+            path: '/reader/demo',
+            name: 'Demo',
+            component: Demo
+        },
+        {
+            path: '/reader/shen',
+            name: 'Shen',
+            component: Shen
+        },
+        {
+            path: '/reader/hofmann',
+            name: 'Hofmann',
+            component: hofmann
         }
-    ]
+    ],
 })
