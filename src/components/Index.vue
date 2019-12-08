@@ -20,11 +20,11 @@
                     <el-form-item label="Methodology">
                       <span>{{ props.row.methodology }}</span>
                     </el-form-item>
-                    <el-form-item label="Experiment">
-                      <span>{{ props.row.experiment }}</span>
+                    <el-form-item label="Findings">
+                      <span>{{ props.row.findings }}</span>
                     </el-form-item>
-                    <el-form-item label="Result">
-                      <span>{{ props.row.result }}</span>
+                    <el-form-item label="Contribution">
+                      <span>{{ props.row.contribution }}</span>
                     </el-form-item>
                   </el-form>
                 </template>
@@ -67,23 +67,26 @@ export default {
           ],
           methodology:
             'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
-          experiment: 'here',
-          result: 'here',
+          findings: 'here',
+          contribution: 'here',
           url: '/demo'
         },
         {
-          title: 'Probabilistic Latent Semantic Indexing',
+          title: 'Vitro: Designing a Voice Assistant for the Scientific Lab Workplace',
           keyword: [
-            'Query history',
-            'query expansion',
-            'interactive retrieval',
-            'context'
+          'voice assistant', 
+          'design research', 
+          'conversational agent', 
+          'augmented scientific workplace'
           ],
           methodology:
-            'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
-          experiment: 'here',
-          result: 'here',
-          url: '/shen'
+           ['case study in the design of Vitro, a voice-based assistant created for a biology wet lab. ', 'contextual inquiry proces'],
+          findings: 
+          ['Participants saw Vitro as lab equipment, rather than as a labmate. ',
+          'Despite our initial observation that scientists engaged in “care- ful deviation” from protocols, Vitro supported this practice only minimally. ',
+          'On average, participants in our experiment were only “mod- erately comfortable” with how voice-enabled devices such as Google Assistant, Siri or Cortana handle user privacy.' ],
+          contribution: 'It does not seek to report on a new AI technology, nor does it purport to introduce a new design technique or methodology. Instead, it simply asks if (and how) human-computer interaction and design practition- ers and researchers may take voice as a serious design material for hands-free workplace applications',
+          url: '/p1531-cambre(1)'
         },
         {
           title:
@@ -91,8 +94,8 @@ export default {
           keyword: 'Negative feedback',
           methodology:
             'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
-          experiment: 'here',
-          result: 'here',
+          findings: 'here',
+          contribution: 'here',
           url: '/hofmann'
         }
       ]
