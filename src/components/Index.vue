@@ -56,7 +56,7 @@ export default {
     return {
       tableData: [
         {
-          title: 'Cyberbullying, self-esteem, empathy and loneliness',
+          title: 'The Connected Shower: Studying Intimate Data in Everyday Life',
           keyword: [
             'Cyberbullying',
             'Loneliness',
@@ -66,10 +66,10 @@ export default {
             'Victimisation'
           ],
           methodology:
-            'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
-          findings: 'here',
-          contribution: 'here',
-          url: '/demo'
+            'IoT shower kit probe： Water usage, Water temperature, Flow rate, Shower head movement, Product usage, Identify potential using scenarios; \n6 households, at-home weekly deployment; \nContextual interview',
+          findings: 'Intimate practice is not intimate data, nor intimacy is a property of the data. Data from intimate practice is socially accountable. Intimate data is sharable, as perceived “meaningless” without articulating by user themselves',
+          contribution: 'Our main contribution is an understanding of the use of ‘intimate data’ in IoT systems, which may benefit researchers wishing to study the intersection of technologies and intimate practices, as well as designers seeking to design for or leverage data from intimate practices.',
+          url: '/a176-kwon'
         },
         {
           title: 'Vitro: Designing a Voice Assistant for the Scientific Lab Workplace',
