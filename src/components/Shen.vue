@@ -53,7 +53,7 @@
       <el-container>
         <el-main>
           <iframe
-            src="../assets/shen.pdf"
+            :src="paper.src"
             width="100%"
             height="800px"
             style="border: none;"
@@ -86,10 +86,6 @@
 </template>
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
-import Vue from 'vue'
-import card from './card.vue'
-Vue.config.productionTip = false
-
 function createCard(title, content) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
@@ -126,13 +122,7 @@ function createCard(title, content) {
 
   document.getElementById('sidearea').appendChild(card)
 }
-
 export default {
-  components: {
-    card
-  },
-  created() {},
-  mounted() {},
   data() {
     return {
       show: true,
@@ -142,7 +132,7 @@ export default {
       direction: 'ltr',
       paper: {
         title: 'Probabilistic Latent Semantic Indexing',
-        src: 'p43-shen.pdf'
+        src: 'shen.pdf'
       },
       form: {
         searchtext: ''

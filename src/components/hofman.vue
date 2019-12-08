@@ -53,7 +53,7 @@
       <el-container>
         <el-main>
           <iframe
-            src="hofmann.pdf"
+            :src="paper.src"
             width="100%"
             height="800px"
             style="border: none;"
@@ -141,8 +141,9 @@ export default {
       drawer: false,
       direction: 'ltr',
       paper: {
-        title: 'Context-Sensitive Information Retrieval Using Implicit Feedback',
-        src: 'p50-hofman.pdf'
+        title:
+          'Context-Sensitive Information Retrieval Using Implicit Feedback',
+        src: 'hofmann.pdf'
       },
       form: {
         searchtext: ''
@@ -171,7 +172,13 @@ export default {
     submit(formName) {
       this.loading = true
       if (this.form.searchtext == '') {
-        setTimeout(() => ((this.loading = false), this.notify('Warning','Please input before search','warning')), 1000)
+        setTimeout(
+          () => (
+            (this.loading = false),
+            this.notify('Warning', 'Please input before search', 'warning')
+          ),
+          1000
+        )
       } else {
         this.getWikiResult(this.form.searchtext).then(function(result) {
           setTimeout(() => ((this.loading = false), 1000))
@@ -186,7 +193,7 @@ export default {
     reset(formName) {
       this.$refs[formName].resetFields()
     },
-    notify(title, message,type) {
+    notify(title, message, type) {
       const h = this.$createElement
 
       this.$notify({
@@ -203,7 +210,7 @@ export default {
           childNode.parentNode.removeChild(childNode)
         }
       }
-      this.notify('Success','Card removed','success')
+      this.notify('Success', 'Card removed', 'success')
     },
     async getWikiResult(query) {
       var url = 'https://en.wikipedia.org/w/api.php'

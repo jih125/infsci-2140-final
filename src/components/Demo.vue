@@ -53,11 +53,11 @@
       <el-container>
         <el-main>
           <iframe
-            src="demo.pdf"
+            :src="paper.src"
             width="100%"
             height="800px"
-            style="border: none;"
-          />
+            style="border:none;"
+          ></iframe>
         </el-main>
         <el-footer>INFSCI 2140 PROJECT</el-footer>
       </el-container>

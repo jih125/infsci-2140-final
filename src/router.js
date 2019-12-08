@@ -18,17 +18,17 @@ export default new Router({
             component: Index
         },
         {
-            path: '/reader/demo',
+            path: '/demo',
             name: 'Demo',
             component: Demo
         },
         {
-            path: '/reader/shen',
+            path: '/shen',
             name: 'Shen',
             component: Shen
         },
         {
-            path: '/reader/hofmann',
+            path: '/hofmann',
             name: 'Hofmann',
             component: hofmann
         }

@@ -32,7 +32,7 @@
               <el-table-column label="Title" prop="title"> </el-table-column>
               <el-table-column align="right">
                 <template slot-scope="props">
-                  <el-link :href='props.row.src' :underline="false">
+                  <el-link :href='props.row.url' :underline="false">
                   <el-button
                     size="mini"
                     type="primary"
@@ -67,7 +67,7 @@ export default {
           methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
           result: 'here',
-          src:'/reader/demo'
+          url:'/demo'
         },
         {
           title: 'Probabilistic Latent Semantic Indexing',
@@ -75,7 +75,7 @@ export default {
           methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
           result: 'here',
-          src:'/reader/shen'
+          url:'/shen'
         },
         {
           title: 'Context-Sensitive Information Retrieval Using Implicit Feedback',
@@ -83,7 +83,7 @@ export default {
           methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
           result: 'here',
-          src:'reader/hofmann'  
+          url:'/hofmann'  
         },
       ]
     }
