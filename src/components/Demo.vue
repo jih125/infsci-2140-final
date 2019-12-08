@@ -91,6 +91,13 @@ import card from './card.vue'
 Vue.config.productionTip = false
 
 function createCard(title, content) {
+  // var childNodes = document.getElementById('sidearea').childNodes
+  //     for (var i = childNodes.length - 1; i >= 0; i--) {
+  //       var childNode = childNodes[i]
+  //       if (childNode.id == 'card') {
+  //         childNode.parentNode.removeChild(childNode)
+  //       }
+  //     }
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -139,7 +146,7 @@ export default {
       drawer: false,
       direction: 'ltr',
       paper: {
-        title: 'A study of methods for negative relevance feedback',
+        title: 'Cyberbullying, self-esteem, empathy and loneliness',
         src: 'demo.pdf'
       },
       form: {

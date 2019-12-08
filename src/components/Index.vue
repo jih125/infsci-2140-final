@@ -32,12 +32,8 @@
               <el-table-column label="Title" prop="title"> </el-table-column>
               <el-table-column align="right">
                 <template slot-scope="props">
-                  <el-link :href='props.row.url' :underline="false">
-                  <el-button
-                    size="mini"
-                    type="primary"
-                    >Read now</el-button
-                  >
+                  <el-link :href="props.row.url" :underline="false">
+                    <el-button size="mini" type="primary">Read now</el-button>
                   </el-link>
                 </template>
               </el-table-column>
@@ -52,9 +48,7 @@
 
 <script>
 export default {
-  scope: {
-
-  },
+  scope: {},
   props: {
     source: String
   },
@@ -63,28 +57,44 @@ export default {
       tableData: [
         {
           title: 'Cyberbullying, self-esteem, empathy and loneliness',
-          keyword: 'Negative feedback',
-          methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
+          keyword: [
+            'Cyberbullying',
+            'Loneliness',
+            'Empathy',
+            'Self-esteem',
+            'Perpetration',
+            'Victimisation'
+          ],
+          methodology:
+            'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
           result: 'here',
-          url:'/demo'
+          url: '/demo'
         },
         {
           title: 'Probabilistic Latent Semantic Indexing',
-          keyword: 'Negative feedback',
-          methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
+          keyword: [
+            'Query history',
+            'query expansion',
+            'interactive retrieval',
+            'context'
+          ],
+          methodology:
+            'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
           result: 'here',
-          url:'/shen'
+          url: '/shen'
         },
         {
-          title: 'Context-Sensitive Information Retrieval Using Implicit Feedback',
+          title:
+            'Context-Sensitive Information Retrieval Using Implicit Feedback',
           keyword: 'Negative feedback',
-          methodology: 'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
+          methodology:
+            'Given a query and a ranked document list for the query, we keep deleting the top ranked relevant document until none of the top 10 ranked documents of the list is relevant. We assume that the deleted relevant documents do not exist in the collection.',
           experiment: 'here',
           result: 'here',
-          url:'/hofmann'  
-        },
+          url: '/hofmann'
+        }
       ]
     }
   }
@@ -99,7 +109,7 @@ export default {
   margin-bottom: 0;
 }
 .subtitle {
-  font-weight:lighter;
+  font-weight: lighter;
   font-size: 48px;
   margin-top: 0;
 }
@@ -109,7 +119,7 @@ export default {
 .demo-table-expand label {
   width: 90px;
   font-weight: bold;
-  color: #049EFF;
+  color: #049eff;
 }
 .demo-table-expand .el-form-item {
   margin-right: 0;
@@ -117,9 +127,9 @@ export default {
   width: 100%;
 }
 el-main {
-  padding-bottom:100px;
+  padding-bottom: 100px;
 }
-.el-footer{
+.el-footer {
   text-align: center;
 }
 </style>
