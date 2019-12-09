@@ -58,14 +58,9 @@ export default {
         {
           title:
             'The Connected Shower: Studying Intimate Data in Everyday Life',
-          keyword: [
-            'Cyberbullying',
-            'Loneliness',
-            'Empathy',
-            'Self-esteem',
-            'Perpetration',
-            'Victimisation'
-          ],
+          keyword:
+             'Ubiquitous Computing, Internet of Things, Intimacy, Intimate Data, Privacy, Data Work,Technology Probe'
+          ,
           methodology:
             'IoT shower kit probe： Water usage, Water temperature, Flow rate, Shower head movement, Product usage, Identify potential using scenarios; \n6 households, at-home weekly deployment; \nContextual interview',
           findings:
@@ -101,10 +96,10 @@ export default {
             'Measuring Young Children’s Long-Term Relationships with Social Robots',
           keyword: [
             'assessments',
-            ' children',
+            'children',
             'long-term interaction',
-            ' human-robot interaction',
-            ' social robots'
+            'human-robot interaction',
+            'social robots'
           ],
           methodology:
             'Experiment: social vs. neutral\n A pilot test of four assessments that we have adapted or created for use in this context with children aged 5–6: the Inclusion of Other in Self task, the Social-Relational Interview, the Narrative Description, and the Self-disclosure Task.',
