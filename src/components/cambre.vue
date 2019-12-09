@@ -80,6 +80,50 @@
             <el-button type="text" @click="removeCards()">Clear</el-button>
           </el-form-item>
         </el-form>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="wiki-tab"
+              data-toggle="tab"
+              href="#wiki"
+              role="tab"
+              aria-controls="wiki"
+              aria-selected="true"
+              >Wikipedia</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="springer-tab"
+              data-toggle="tab"
+              href="#springer"
+              role="tab"
+              aria-controls="springer"
+              aria-selected="false"
+              >Springer</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="wiki"
+            role="tabpanel"
+            aria-labelledby="wiki-tab"
+          >
+            <div class="container" id="wikicard"></div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="springer"
+            role="tabpanel"
+            aria-labelledby="springer-tab"
+          >
+            <div class="container" id="springercard"></div>
+          </div>
+        </div>
       </el-aside>
     </el-container>
   </el-container>
@@ -88,7 +132,7 @@
 <script>
 import * as external from '@/plugins/fetchApi.js'
 
-function createWikiCard(title, content, url) {
+function createCard(id, title, content, url) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -118,41 +162,9 @@ function createWikiCard(title, content, url) {
   cardBody.appendChild(resultContent)
   card.appendChild(cardBody)
   // return card
-  document.getElementById('wikicard').appendChild(card)
+  document.getElementById(id).appendChild(card)
 }
 
-function createSpringerCard(title, content, url) {
-  var card = document.createElement('div')
-  card.setAttribute('id', 'card')
-  card.setAttribute('class', 'card')
-  card.setAttribute('style', 'margin-top:10px')
-  var cardBody = document.createElement('div')
-  cardBody.setAttribute('class', 'card-body')
-
-  var resultTitle = document.createElement('a')
-  resultTitle.setAttribute('class', 'card-title')
-  resultTitle.setAttribute('href',url)
-  resultTitle.setAttribute('target','_blank')
-
-  var resultTitleText = document.createElement('h5')
-  resultTitleText.innerText = title
-  resultTitle.appendChild(resultTitleText)
-
-  var resultContent = document.createElement('p')
-  resultContent.setAttribute('class', 'card-text')
-  resultContent.setAttribute(
-    'style',
-    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;'
-  )
-  var contentText = content
-  resultContent.innerHTML = contentText
-
-  cardBody.appendChild(resultTitle)
-  cardBody.appendChild(resultContent)
-  card.appendChild(cardBody)
-  // return card
-  document.getElementById('springercard').appendChild(card)
-}
 export default {
   data() {
     return {
@@ -162,7 +174,8 @@ export default {
       drawer: false,
       direction: 'ltr',
       paper: {
-        title: 'Vitro: Designing a Voice Assistant for the Scientific Lab Workplace',
+        title:
+          'Vitro: Designing a Voice Assistant for the Scientific Lab Workplace',
         src: 'cambre.pdf'
       },
       form: {
@@ -170,7 +183,7 @@ export default {
       },
       result: {
         text: ''
-      },
+      }
     }
   },
   computed: {},
@@ -178,20 +191,31 @@ export default {
     submit(formName) {
       this.loading = true
       if (this.form.searchtext == '') {
-        setTimeout(() => ((this.loading = false), this.notify('Warning','Please input before search','warning')), 1000)
+        setTimeout(
+          () => (
+            (this.loading = false),
+            this.notify('Warning', 'Please input before search', 'warning')
+          ),
+          1000
+        )
       } else {
         this.loading = false
 
         external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createWikiCard(element.title, element.snippet, element.url)
+            createCard('wiki', element.title, element.snippet, element.url)
           })
         })
         external.getSpringerResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createSpringerCard(element.title, element.abstract,element.url[0].value)
+            createCard(
+              'springer',
+              element.title,
+              element.abstract,
+              element.url[0].value
+            )
           })
         })
       }
@@ -199,7 +223,7 @@ export default {
     reset(formName) {
       this.$refs[formName].resetFields()
     },
-    notify(title, message,type) {
+    notify(title, message, type) {
       const h = this.$createElement
 
       this.$notify({
@@ -209,14 +233,16 @@ export default {
       })
     },
     removeCards() {
-      var childNodes = document.getElementById('sidearea').childNodes
-      for (var i = childNodes.length - 1; i >= 0; i--) {
-        var childNode = childNodes[i]
-        if (childNode.id == 'card') {
-          childNode.parentNode.removeChild(childNode)
-        }
-      }
-      this.notify('Success','Card removed','success')
+      // var childNodes = document.getElementById('sidearea').childNodes
+      // for (var i = childNodes.length - 1; i >= 0; i--) {
+      //   var childNode = childNodes[i]
+      //   if (childNode.id == 'card') {
+      //     childNode.parentNode.removeChild(childNode)
+      //   }
+      // }
+      document.getElementById('wiki').innerHTML = ''
+      document.getElementById('springer').innerHTML = ''
+      this.notify('Success', 'Card removed', 'success')
     },
     async getWikiResult(query) {
       var url = 'https://en.wikipedia.org/w/api.php'

@@ -136,7 +136,7 @@ import * as external from '@/plugins/fetchApi.js'
 
 Vue.config.productionTip = false
 
-function createWikiCard(title, content, url) {
+function createCard(id, title, content, url) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -166,40 +166,7 @@ function createWikiCard(title, content, url) {
   cardBody.appendChild(resultContent)
   card.appendChild(cardBody)
   // return card
-  document.getElementById('wikicard').appendChild(card)
-}
-
-function createSpringerCard(title, content, url) {
-  var card = document.createElement('div')
-  card.setAttribute('id', 'card')
-  card.setAttribute('class', 'card')
-  card.setAttribute('style', 'margin-top:10px')
-  var cardBody = document.createElement('div')
-  cardBody.setAttribute('class', 'card-body')
-
-  var resultTitle = document.createElement('a')
-  resultTitle.setAttribute('class', 'card-title')
-  resultTitle.setAttribute('href',url)
-  resultTitle.setAttribute('target','_blank')
-
-  var resultTitleText = document.createElement('h5')
-  resultTitleText.innerText = title
-  resultTitle.appendChild(resultTitleText)
-
-  var resultContent = document.createElement('p')
-  resultContent.setAttribute('class', 'card-text')
-  resultContent.setAttribute(
-    'style',
-    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;'
-  )
-  var contentText = content
-  resultContent.innerHTML = contentText
-
-  cardBody.appendChild(resultTitle)
-  cardBody.appendChild(resultContent)
-  card.appendChild(cardBody)
-  // return card
-  document.getElementById('springercard').appendChild(card)
+  document.getElementById(id).appendChild(card)
 }
 
 export default {
@@ -243,13 +210,18 @@ export default {
         external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createWikiCard(element.title, element.snippet, element.url)
+            createCard('wikicard', element.title, element.snippet, element.url)
           })
         })
         external.getSpringerResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createSpringerCard(element.title, element.abstract,element.url[0].value)
+            createCard(
+              'springercard',
+              element.title,
+              element.abstract,
+              element.url[0].value
+            )
           })
         })
       }
@@ -267,13 +239,10 @@ export default {
       })
     },
     removeCards() {
-      var childNodes = document.getElementById('wiki').childNodes
-      for (var i = childNodes.length - 1; i >= 0; i--) {
-        var childNode = childNodes[i]
-        if (childNode.id == 'wikicard') {
-          childNode.parentNode.removeChild(childNode)
-        }
-      }
+      // var el = document.getElementById('wiki')
+      // while (el.firstChild) el.removeChild(el.firstChild);
+      document.getElementById('wiki').innerHTML = ''
+      document.getElementById('springer').innerHTML = ''
       this.notify('Success', 'Card removed', 'success')
     }
   }
