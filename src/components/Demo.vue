@@ -31,17 +31,17 @@
                   <i class="el-icon-collection"></i>
                   <span>{{ paper.title }}</span>
                 </template>
-                <el-menu-item-group>
+                <el-menu-link-group>
                   <template slot="title">分组一</template>
-                  <el-menu-item index="1-1">选项1</el-menu-item>
-                  <el-menu-item index="1-2">选项2</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="分组2">
-                  <el-menu-item index="1-3">选项3</el-menu-item>
-                </el-menu-item-group>
+                  <el-menu-link index="1-1">选项1</el-menu-link>
+                  <el-menu-link index="1-2">选项2</el-menu-link>
+                </el-menu-link-group>
+                <el-menu-link-group title="分组2">
+                  <el-menu-link index="1-3">选项3</el-menu-link>
+                </el-menu-link-group>
                 <el-submenu index="1-4">
                   <template slot="title">选项4</template>
-                  <el-menu-item index="1-4-1">选项1</el-menu-item>
+                  <el-menu-link index="1-4-1">选项1</el-menu-link>
                 </el-submenu>
               </el-submenu>
             </el-menu>
@@ -80,6 +80,48 @@
             <el-button type="text" @click="removeCards()">Clear</el-button>
           </el-form-item>
         </el-form>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="wiki-tab"
+              data-toggle="tab"
+              href="#wiki"
+              role="tab"
+              aria-controls="wiki"
+              aria-selected="true"
+              >Wikipedia</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="springer-tab"
+              data-toggle="tab"
+              href="#springer"
+              role="tab"
+              aria-controls="springer"
+              aria-selected="false"
+              >Springer</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="wiki"
+            role="tabpanel"
+            aria-labelledby="wiki-tab"
+          >
+            <div class="container" id="wikicard"></div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="springer"
+            role="tabpanel"
+            aria-labelledby="springer-tab"
+          ><div class="container" id="springercard"></div></div>
+        </div>
       </el-aside>
     </el-container>
   </el-container>
@@ -88,20 +130,15 @@
 <script>
 import Vue from 'vue'
 import card from './card.vue'
+import * as external from '@/plugins/fetchApi.js'
+
 Vue.config.productionTip = false
 
-function createCard(title, content) {
-  // var childNodes = document.getElementById('sidearea').childNodes
-  //     for (var i = childNodes.length - 1; i >= 0; i--) {
-  //       var childNode = childNodes[i]
-  //       if (childNode.id == 'card') {
-  //         childNode.parentNode.removeChild(childNode)
-  //       }
-  //     }
+function createWikiCard(title, content) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
-  card.setAttribute('style', 'margin-bottom:10px')
+  card.setAttribute('style', 'margin-top:10px')
   var cardBody = document.createElement('div')
   cardBody.setAttribute('class', 'card-body')
 
@@ -120,18 +157,37 @@ function createCard(title, content) {
 
   cardBody.appendChild(resultTitle)
   cardBody.appendChild(resultContent)
-  // for (var i = 0; i < this.category.length; i++) {
-  //   var resource = document.createElement('a')
-  //   resource.setAttribute('class', 'card-link')
-  //   resource.setAttribute('href', this.category[i].url)
-  //   resource.setAttribute('target', '_blank')
-  //   var resourceTitle = document.createTextNode(this.category[i].name)
-  //   resource.appendChild(resourceTitle)
-  //   cardBody.appendChild(resource)
-  // }
   card.appendChild(cardBody)
+  // return card
+  document.getElementById('wikicard').appendChild(card)
+}
 
-  document.getElementById('sidearea').appendChild(card)
+function createSpringerCard(title, content) {
+  var card = document.createElement('div')
+  card.setAttribute('id', 'card')
+  card.setAttribute('class', 'card')
+  card.setAttribute('style', 'margin-top:10px')
+  var cardBody = document.createElement('div')
+  cardBody.setAttribute('class', 'card-body')
+
+  var resultTitle = document.createElement('h5')
+  resultTitle.setAttribute('class', 'card-title')
+  resultTitle.innerHTML = title
+
+  var resultContent = document.createElement('p')
+  resultContent.setAttribute('class', 'card-text')
+  resultContent.setAttribute(
+    'style',
+    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;'
+  )
+  var contentText = content
+  resultContent.innerHTML = contentText
+
+  cardBody.appendChild(resultTitle)
+  cardBody.appendChild(resultContent)
+  card.appendChild(cardBody)
+  // return card
+  document.getElementById('springercard').appendChild(card)
 }
 
 export default {
@@ -171,7 +227,6 @@ export default {
       ]
     }
   },
-  computed: {},
   methods: {
     submit(formName) {
       this.loading = true
@@ -184,14 +239,21 @@ export default {
           1000
         )
       } else {
-        this.getWikiResult(this.form.searchtext).then(function(result) {
-          setTimeout(() => ((this.loading = false), 1000))
+        // createtab()
+        this.loading = false
+
+        external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createCard(element.title, element.snippet)
+            createWikiCard(element.title, element.snippet)
           })
         })
-        this.loading = false
+        external.getSpringerResult(this.form.searchtext).then(function(result) {
+          var resultArray = result
+          resultArray.forEach(element => {
+            createSpringerCard(element.title, element.abstract)
+          })
+        })
       }
     },
     reset(formName) {
@@ -207,46 +269,15 @@ export default {
       })
     },
     removeCards() {
-      var childNodes = document.getElementById('sidearea').childNodes
+      var childNodes = document.getElementById('wiki').childNodes
       for (var i = childNodes.length - 1; i >= 0; i--) {
         var childNode = childNodes[i]
-        if (childNode.id == 'card') {
+        if (childNode.id == 'wikicard') {
           childNode.parentNode.removeChild(childNode)
         }
       }
       this.notify('Success', 'Card removed', 'success')
     },
-    async getWikiResult(query) {
-      var url = 'https://en.wikipedia.org/w/api.php'
-      var params = {
-        action: 'query',
-        format: 'json',
-        list: 'search',
-        utf8: 1,
-        srsearch: query,
-        srprop: 'snippet|titlesnippet',
-        srlimit: 5,
-        srenablerewrites: 1,
-        srsort: 'relevance'
-      }
-
-      url = url + '?origin=*'
-      Object.keys(params).forEach(function(key) {
-        url += '&' + key + '=' + params[key]
-      })
-      var temp = []
-      await fetch(url)
-        .then(function(response) {
-          return response.json()
-        })
-        .then(function(response) {
-          temp = response.query.search
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
-      return temp
-    }
   }
 }
 </script>
