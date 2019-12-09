@@ -86,10 +86,6 @@
 </template>
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
-import Vue from 'vue'
-import card from './card.vue'
-Vue.config.productionTip = false
-
 function createCard(title, content) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
@@ -126,13 +122,7 @@ function createCard(title, content) {
 
   document.getElementById('sidearea').appendChild(card)
 }
-
 export default {
-  components: {
-    card
-  },
-  created() {},
-  mounted() {},
   data() {
     return {
       show: true,
@@ -141,9 +131,8 @@ export default {
       drawer: false,
       direction: 'ltr',
       paper: {
-        title:
-          'Context-Sensitive Information Retrieval Using Implicit Feedback',
-        src: 'hofmann.pdf'
+        title: 'Vitro: Designing a Voice Assistant for the Scientific Lab Workplace',
+        src: 'cambre.pdf'
       },
       form: {
         searchtext: ''
@@ -151,20 +140,6 @@ export default {
       result: {
         text: ''
       },
-      category: [
-        {
-          name: '123',
-          url: 'http://www.google.com'
-        },
-        {
-          name: '123',
-          url: 'http://www.google.com'
-        },
-        {
-          name: '123',
-          url: 'http://www.google.com'
-        }
-      ]
     }
   },
   computed: {},
@@ -172,13 +147,7 @@ export default {
     submit(formName) {
       this.loading = true
       if (this.form.searchtext == '') {
-        setTimeout(
-          () => (
-            (this.loading = false),
-            this.notify('Warning', 'Please input before search', 'warning')
-          ),
-          1000
-        )
+        setTimeout(() => ((this.loading = false), this.notify('Warning','Please input before search','warning')), 1000)
       } else {
         this.getWikiResult(this.form.searchtext).then(function(result) {
           setTimeout(() => ((this.loading = false), 1000))
@@ -193,7 +162,7 @@ export default {
     reset(formName) {
       this.$refs[formName].resetFields()
     },
-    notify(title, message, type) {
+    notify(title, message,type) {
       const h = this.$createElement
 
       this.$notify({
@@ -210,7 +179,7 @@ export default {
           childNode.parentNode.removeChild(childNode)
         }
       }
-      this.notify('Success', 'Card removed', 'success')
+      this.notify('Success','Card removed','success')
     },
     async getWikiResult(query) {
       var url = 'https://en.wikipedia.org/w/api.php'

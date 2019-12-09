@@ -202,8 +202,8 @@ export default {
       drawer: false,
       direction: 'ltr',
       paper: {
-        title: 'Cyberbullying, self-esteem, empathy and loneliness',
-        src: 'demo.pdf'
+        title: 'The Connected Shower: Studying Intimate Data in Everyday Life',
+        src: 'kwon.pdf'
       },
       form: {
         searchtext: ''
@@ -211,20 +211,6 @@ export default {
       result: {
         text: ''
       },
-      category: [
-        {
-          name: '123',
-          url: 'http://www.google.com'
-        },
-        {
-          name: '123',
-          url: 'http://www.google.com'
-        },
-        {
-          name: '123',
-          url: 'http://www.google.com'
-        }
-      ]
     }
   },
   methods: {

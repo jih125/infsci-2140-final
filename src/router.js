@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./components/Index.vue";
-import Demo from "./components/Demo.vue";
-import Shen from "./components/Shen.vue";
-import hofmann from './components/hofman.vue';
+import Kwon from "./components/kwon.vue";
+import Cambre from "./components/cambre.vue";
+import Westlund from './components/westlund.vue';
 
 
 Vue.use(Router)
@@ -18,19 +18,19 @@ export default new Router({
             component: Index
         },
         {
-            path: '/demo',
-            name: 'Demo',
-            component: Demo
+            path: '/cambre',
+            name: 'Cambre',
+            component: Cambre
         },
         {
-            path: '/shen',
-            name: 'Shen',
-            component: Shen
+            path: '/kwon',
+            name: 'Kwon',
+            component: Kwon
         },
         {
-            path: '/hofmann',
-            name: 'Hofmann',
-            component: hofmann
+            path: '/westlund',
+            name: 'Westlund',
+            component: Westlund
         }
     ],
 })
