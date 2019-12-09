@@ -12,15 +12,15 @@
         <el-col :span="20">
           <p class="title">{{ paper.title }}</p>
         </el-col>
-        <el-col :span="3">
+        <!-- <el-col :span="3">
           <el-button
             @click="drawer = true"
             type="primary"
             size="mini"
             style="margin-top: 18px;"
             >Outline</el-button
-          >
-          <el-drawer
+          > -->
+        <!-- <el-drawer
             title="Outline"
             :visible.sync="drawer"
             :direction="direction"
@@ -45,8 +45,8 @@
                 </el-submenu>
               </el-submenu>
             </el-menu>
-          </el-drawer>
-        </el-col>
+          </el-drawer> -->
+        <!-- </el-col> -->
       </el-row>
     </el-header>
     <el-container>
@@ -120,7 +120,9 @@
             id="springer"
             role="tabpanel"
             aria-labelledby="springer-tab"
-          ><div class="container" id="springercard"></div></div>
+          >
+            <div class="container" id="springercard"></div>
+          </div>
         </div>
       </el-aside>
     </el-container>
@@ -134,7 +136,7 @@ import * as external from '@/plugins/fetchApi.js'
 
 Vue.config.productionTip = false
 
-function createWikiCard(title, content) {
+function createWikiCard(title, content, url) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -142,9 +144,14 @@ function createWikiCard(title, content) {
   var cardBody = document.createElement('div')
   cardBody.setAttribute('class', 'card-body')
 
-  var resultTitle = document.createElement('h5')
+  var resultTitle = document.createElement('a')
   resultTitle.setAttribute('class', 'card-title')
-  resultTitle.innerHTML = title
+  resultTitle.setAttribute('href', url)
+  resultTitle.setAttribute('target', '_blank')
+
+  var resultTitleText = document.createElement('h5')
+  resultTitleText.innerText = title
+  resultTitle.appendChild(resultTitleText)
 
   var resultContent = document.createElement('p')
   resultContent.setAttribute('class', 'card-text')
@@ -162,7 +169,7 @@ function createWikiCard(title, content) {
   document.getElementById('wikicard').appendChild(card)
 }
 
-function createSpringerCard(title, content) {
+function createSpringerCard(title, content, url) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -170,15 +177,20 @@ function createSpringerCard(title, content) {
   var cardBody = document.createElement('div')
   cardBody.setAttribute('class', 'card-body')
 
-  var resultTitle = document.createElement('h5')
+  var resultTitle = document.createElement('a')
   resultTitle.setAttribute('class', 'card-title')
-  resultTitle.innerHTML = title
+  resultTitle.setAttribute('href',url)
+  resultTitle.setAttribute('target','_blank')
+
+  var resultTitleText = document.createElement('h5')
+  resultTitleText.innerText = title
+  resultTitle.appendChild(resultTitleText)
 
   var resultContent = document.createElement('p')
   resultContent.setAttribute('class', 'card-text')
   resultContent.setAttribute(
     'style',
-    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;'
+    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;'
   )
   var contentText = content
   resultContent.innerHTML = contentText
@@ -210,7 +222,7 @@ export default {
       },
       result: {
         text: ''
-      },
+      }
     }
   },
   methods: {
@@ -231,13 +243,13 @@ export default {
         external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createWikiCard(element.title, element.snippet)
+            createWikiCard(element.title, element.snippet, element.url)
           })
         })
         external.getSpringerResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createSpringerCard(element.title, element.abstract)
+            createSpringerCard(element.title, element.abstract,element.url[0].value)
           })
         })
       }
@@ -263,7 +275,7 @@ export default {
         }
       }
       this.notify('Success', 'Card removed', 'success')
-    },
+    }
   }
 }
 </script>

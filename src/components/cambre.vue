@@ -12,7 +12,7 @@
         <el-col :span="20">
           <p class="title">{{ paper.title }}</p>
         </el-col>
-        <el-col :span="3">
+        <!-- <el-col :span="3">
           <el-button
             @click="drawer = true"
             type="primary"
@@ -46,7 +46,7 @@
               </el-submenu>
             </el-menu>
           </el-drawer>
-        </el-col>
+        </el-col> -->
       </el-row>
     </el-header>
     <el-container>
@@ -86,17 +86,24 @@
 </template>
 <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
-function createCard(title, content) {
+import * as external from '@/plugins/fetchApi.js'
+
+function createWikiCard(title, content, url) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
-  card.setAttribute('style', 'margin-bottom:10px')
+  card.setAttribute('style', 'margin-top:10px')
   var cardBody = document.createElement('div')
   cardBody.setAttribute('class', 'card-body')
 
-  var resultTitle = document.createElement('h5')
+  var resultTitle = document.createElement('a')
   resultTitle.setAttribute('class', 'card-title')
-  resultTitle.innerHTML = title
+  resultTitle.setAttribute('href', url)
+  resultTitle.setAttribute('target', '_blank')
+
+  var resultTitleText = document.createElement('h5')
+  resultTitleText.innerText = title
+  resultTitle.appendChild(resultTitleText)
 
   var resultContent = document.createElement('p')
   resultContent.setAttribute('class', 'card-text')
@@ -109,18 +116,42 @@ function createCard(title, content) {
 
   cardBody.appendChild(resultTitle)
   cardBody.appendChild(resultContent)
-  // for (var i = 0; i < this.category.length; i++) {
-  //   var resource = document.createElement('a')
-  //   resource.setAttribute('class', 'card-link')
-  //   resource.setAttribute('href', this.category[i].url)
-  //   resource.setAttribute('target', '_blank')
-  //   var resourceTitle = document.createTextNode(this.category[i].name)
-  //   resource.appendChild(resourceTitle)
-  //   cardBody.appendChild(resource)
-  // }
   card.appendChild(cardBody)
+  // return card
+  document.getElementById('wikicard').appendChild(card)
+}
 
-  document.getElementById('sidearea').appendChild(card)
+function createSpringerCard(title, content, url) {
+  var card = document.createElement('div')
+  card.setAttribute('id', 'card')
+  card.setAttribute('class', 'card')
+  card.setAttribute('style', 'margin-top:10px')
+  var cardBody = document.createElement('div')
+  cardBody.setAttribute('class', 'card-body')
+
+  var resultTitle = document.createElement('a')
+  resultTitle.setAttribute('class', 'card-title')
+  resultTitle.setAttribute('href',url)
+  resultTitle.setAttribute('target','_blank')
+
+  var resultTitleText = document.createElement('h5')
+  resultTitleText.innerText = title
+  resultTitle.appendChild(resultTitleText)
+
+  var resultContent = document.createElement('p')
+  resultContent.setAttribute('class', 'card-text')
+  resultContent.setAttribute(
+    'style',
+    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;'
+  )
+  var contentText = content
+  resultContent.innerHTML = contentText
+
+  cardBody.appendChild(resultTitle)
+  cardBody.appendChild(resultContent)
+  card.appendChild(cardBody)
+  // return card
+  document.getElementById('springercard').appendChild(card)
 }
 export default {
   data() {
@@ -149,14 +180,20 @@ export default {
       if (this.form.searchtext == '') {
         setTimeout(() => ((this.loading = false), this.notify('Warning','Please input before search','warning')), 1000)
       } else {
-        this.getWikiResult(this.form.searchtext).then(function(result) {
-          setTimeout(() => ((this.loading = false), 1000))
+        this.loading = false
+
+        external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createCard(element.title, element.snippet)
+            createWikiCard(element.title, element.snippet, element.url)
           })
         })
-        this.loading = false
+        external.getSpringerResult(this.form.searchtext).then(function(result) {
+          var resultArray = result
+          resultArray.forEach(element => {
+            createSpringerCard(element.title, element.abstract,element.url[0].value)
+          })
+        })
       }
     },
     reset(formName) {
