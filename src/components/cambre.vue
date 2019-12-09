@@ -76,7 +76,7 @@
             <el-button type="primary" @click="submit('form')" :loading="loading"
               >Submit</el-button
             >
-            <el-button @click="reset('form')">Cancel</el-button>
+            <el-button @click="reset('form')">Delete</el-button>
             <el-button type="text" @click="removeCards()">Clear</el-button>
           </el-form-item>
         </el-form>
@@ -204,14 +204,14 @@ export default {
         external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createCard('wiki', element.title, element.snippet, element.url)
+            createCard('wikicard', element.title, element.snippet, element.url)
           })
         })
         external.getSpringerResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
             createCard(
-              'springer',
+              'springercard',
               element.title,
               element.abstract,
               element.url[0].value
@@ -233,15 +233,20 @@ export default {
       })
     },
     removeCards() {
-      // var childNodes = document.getElementById('sidearea').childNodes
-      // for (var i = childNodes.length - 1; i >= 0; i--) {
-      //   var childNode = childNodes[i]
-      //   if (childNode.id == 'card') {
-      //     childNode.parentNode.removeChild(childNode)
-      //   }
-      // }
-      document.getElementById('wiki').innerHTML = ''
-      document.getElementById('springer').innerHTML = ''
+      var childNodes = document.getElementById('wikicard').childNodes
+      for (var i = childNodes.length - 1; i >= 0; i--) {
+        var childNode = childNodes[i]
+        if (childNode.id == 'card') {
+          childNode.parentNode.removeChild(childNode)
+        }
+      }
+      var childNodes = document.getElementById('springercard').childNodes
+      for (var i = childNodes.length - 1; i >= 0; i--) {
+        var childNode = childNodes[i]
+        if (childNode.id == 'card') {
+          childNode.parentNode.removeChild(childNode)
+        }
+      }
       this.notify('Success', 'Card removed', 'success')
     },
     async getWikiResult(query) {

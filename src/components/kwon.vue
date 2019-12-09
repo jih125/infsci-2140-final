@@ -76,7 +76,7 @@
             <el-button type="primary" @click="submit('form')" :loading="loading"
               >Submit</el-button
             >
-            <el-button @click="reset('form')">Cancel</el-button>
+            <el-button @click="reset('form')">Delete</el-button>
             <el-button type="text" @click="removeCards()">Clear</el-button>
           </el-form-item>
         </el-form>
@@ -239,10 +239,20 @@ export default {
       })
     },
     removeCards() {
-      // var el = document.getElementById('wiki')
-      // while (el.firstChild) el.removeChild(el.firstChild);
-      document.getElementById('wiki').innerHTML = ''
-      document.getElementById('springer').innerHTML = ''
+      var childNodes = document.getElementById('wikicard').childNodes
+      for (var i = childNodes.length - 1; i >= 0; i--) {
+        var childNode = childNodes[i]
+        if (childNode.id == 'card') {
+          childNode.parentNode.removeChild(childNode)
+        }
+      }
+      var childNodes = document.getElementById('springercard').childNodes
+      for (var i = childNodes.length - 1; i >= 0; i--) {
+        var childNode = childNodes[i]
+        if (childNode.id == 'card') {
+          childNode.parentNode.removeChild(childNode)
+        }
+      }
       this.notify('Success', 'Card removed', 'success')
     }
   }
