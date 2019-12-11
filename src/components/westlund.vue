@@ -12,41 +12,6 @@
         <el-col :span="20">
           <p class="title">{{ paper.title }}</p>
         </el-col>
-        <!-- <el-col :span="3">
-          <el-button
-            @click="drawer = true"
-            type="primary"
-            size="mini"
-            style="margin-top: 18px;"
-            >Outline</el-button
-          >
-          <el-drawer
-            title="Outline"
-            :visible.sync="drawer"
-            :direction="direction"
-          >
-            <el-menu default-active="2" class="el-menu-vertical-demo">
-              <el-submenu index="1">
-                <template slot="title">
-                  <i class="el-icon-collection"></i>
-                  <span>{{ paper.title }}</span>
-                </template>
-                <el-menu-item-group>
-                  <template slot="title">分组一</template>
-                  <el-menu-item index="1-1">选项1</el-menu-item>
-                  <el-menu-item index="1-2">选项2</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="分组2">
-                  <el-menu-item index="1-3">选项3</el-menu-item>
-                </el-menu-item-group>
-                <el-submenu index="1-4">
-                  <template slot="title">选项4</template>
-                  <el-menu-item index="1-4-1">选项1</el-menu-item>
-                </el-submenu>
-              </el-submenu>
-            </el-menu>
-          </el-drawer>
-        </el-col> -->
       </el-row>
     </el-header>
     <el-container>
@@ -134,7 +99,7 @@ import Vue from 'vue'
 import card from './card.vue'
 import * as external from '@/plugins/fetchApi.js'
 
-function createCard(id, title, content, url) {
+function createCard(id, title, content, url,number) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -155,7 +120,7 @@ function createCard(id, title, content, url) {
   resultContent.setAttribute('class', 'card-text')
   resultContent.setAttribute(
     'style',
-    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;'
+    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: '+number+';'
   )
   var contentText = content
   resultContent.innerHTML = contentText
@@ -211,7 +176,7 @@ export default {
         external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createCard('wikicard', element.title, element.snippet, element.url)
+            createCard('wikicard', element.title, element.snippet, element.url,4)
           })
         })
         external.getSpringerResult(this.form.searchtext).then(function(result) {
@@ -220,8 +185,9 @@ export default {
             createCard(
               'springercard',
               element.title,
-              element.abstract,
-              element.url[0].value
+              element.abstract.replace('Abstract',''),
+              element.url[0].value,
+              10
             )
           })
         })
@@ -312,5 +278,8 @@ export default {
 }
 .searchmatch {
   font-weight: bold;
+}
+b {
+  text-decoration: underline;
 }
 </style>

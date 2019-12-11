@@ -136,7 +136,7 @@ import * as external from '@/plugins/fetchApi.js'
 
 Vue.config.productionTip = false
 
-function createCard(id, title, content, url) {
+function createCard(id, title, content, url,number) {
   var card = document.createElement('div')
   card.setAttribute('id', 'card')
   card.setAttribute('class', 'card')
@@ -157,7 +157,7 @@ function createCard(id, title, content, url) {
   resultContent.setAttribute('class', 'card-text')
   resultContent.setAttribute(
     'style',
-    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;'
+    'overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: '+number+';'
   )
   var contentText = content
   resultContent.innerHTML = contentText
@@ -210,7 +210,7 @@ export default {
         external.getWikiResult(this.form.searchtext).then(function(result) {
           var resultArray = result
           resultArray.forEach(element => {
-            createCard('wikicard', element.title, element.snippet, element.url)
+            createCard('wikicard', element.title, element.snippet, element.url,4)
           })
         })
         external.getSpringerResult(this.form.searchtext).then(function(result) {
@@ -219,8 +219,8 @@ export default {
             createCard(
               'springercard',
               element.title,
-              element.abstract,
-              element.url[0].value
+              element.abstract.replace('Abstract',''),
+              element.url[0].value,10
             )
           })
         })
@@ -280,5 +280,8 @@ export default {
 }
 .searchmatch {
   font-weight: bold;
+}
+b {
+  text-decoration: underline;
 }
 </style>
