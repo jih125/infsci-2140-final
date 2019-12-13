@@ -84,7 +84,7 @@ async function getSpringerResult(query) {
     var queryStr = "(type:Journal AND title:\"";
     _query.forEach(function (key) { queryStr += (key + ' '); });
     queryStr = queryStr.slice(0, queryStr.length - 1);
-    queryStr += "\" AND (";
+    queryStr += "\" OR (";
     wikiConcept.forEach(function (key) { queryStr += ("keyword:\"" + key.replace(/[\(,\)]/g, '') + "\" OR "); });
     queryStr=queryStr.slice(0,queryStr.length-4)+"))";
     //console.log(queryStr);
