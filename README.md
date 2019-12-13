@@ -1,10 +1,5 @@
 # infsci-2140-final
 
-```
-Before setup, make sure you have npm in your computer. If not, you can quickly download it here: 
-https://nodejs.org/en/ 
-```
-
 ## Project setup
 ```
 npm install
